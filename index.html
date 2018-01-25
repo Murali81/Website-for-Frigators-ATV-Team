@@ -1,176 +1,658 @@
 <!DOCTYPE html>
-<html >
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
-  <meta charset="UTF-8">
-  <title>Zebra in car loader</title>
-  
-  
-  
-      <style>
-      /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
-      body {
-  background: #eee;
+<style>
+@import "compass/css3";
+@import url(http://fonts.googleapis.com/css?family=Anonymous+Pro);
+body{background:#fff;}
+
+.scene{
+  position:absolute; 
+  width:1200px;
+  height:200px;
+  top:50%;
+  left:0%;
+  margin-top:-100px;
+  <!--margin-left:-200px;-->
+  overflow:hidden;
+  &:after{
+    content:" ";
+    left:0;
+    top:0;
+    bottom:0;
+    width:100px;
+    @include background-image(linear-gradient(to right, #eee, rgba(#eee,0)));
+    position:absolute;
+  }
+  &:before{
+    content:" ";
+    right:0;
+    top:0;
+    bottom:0;
+    width:100px;
+    @include background-image(linear-gradient(to left, #eee, rgba(#eee,0)));
+    position:absolute;
+    z-index:10;
+  }
+  .fontt{
+    display:none;
+    position:absolute;
+    bottom:20px;
+    left:-270px;
+    right:0;
+    text-align:center;
+	color: rgba(255,255,255,.75);
+    font-family: 'Anonymous Pro', monospace;
+    <!--color:#0bb4a6;-->
+    letter-spacing:0.2em;
+  }
 }
 
-.scene {
-  position: absolute;
-  width: 400px;
-  height: 200px;
-  top: 50%;
-  left: 50%;
-  margin-top: -100px;
-  margin-left: -200px;
-  overflow: hidden;
-}
-.scene:after {
-  content: " ";
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 100px;
-  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuMCIgeTE9IjAuNSIgeDI9IjEuMCIgeTI9IjAuNSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VlZWVlZSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2VlZWVlZSIgc3RvcC1vcGFjaXR5PSIwLjAiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=');
-  background-size: 100%;
-  background-image: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #eeeeee), color-stop(100%, rgba(238, 238, 238, 0)));
-  background-image: -moz-linear-gradient(left, #eeeeee, rgba(238, 238, 238, 0));
-  background-image: -webkit-linear-gradient(left, #eeeeee, rgba(238, 238, 238, 0));
-  background-image: linear-gradient(to right, #eeeeee, rgba(238, 238, 238, 0));
-  position: absolute;
-}
-.scene:before {
-  content: " ";
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 100px;
-  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjEuMCIgeTE9IjAuNSIgeDI9IjAuMCIgeTI9IjAuNSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VlZWVlZSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2VlZWVlZSIgc3RvcC1vcGFjaXR5PSIwLjAiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=');
-  background-size: 100%;
-  background-image: -webkit-gradient(linear, 100% 50%, 0% 50%, color-stop(0%, #eeeeee), color-stop(100%, rgba(238, 238, 238, 0)));
-  background-image: -moz-linear-gradient(right, #eeeeee, rgba(238, 238, 238, 0));
-  background-image: -webkit-linear-gradient(right, #eeeeee, rgba(238, 238, 238, 0));
-  background-image: linear-gradient(to left, #eeeeee, rgba(238, 238, 238, 0));
-  position: absolute;
-  z-index: 10;
-}
-.scene em {
-  display: none;
-  position: absolute;
-  bottom: 20px;
-  left: 55px;
-  right: 0;
-  text-align: center;
-  font-style: normal;
-  font-family: Proxima Nova;
-  color: #0bb4a6;
-  letter-spacing: 0.2em;
+.car{
+  position:absolute;
+  top:70px;
+  left:20%;
+  margin-left:-30px;
+  animation: peel 6s ease-in-out forwards infinite, bump 0.2s linear infinite;
 }
 
-.car {
-  position: absolute;
-  top: 70px;
-  left: 50%;
-  margin-left: -30px;
-  animation: peel 4s ease-in-out forwards infinite, bump 0.2s linear infinite;
+.poof{
+  position:absolute;
+  top:110px; 
+  left:160px;
+  margin-left:150px;
+  opacity:0;
+  animation: poof 6s ease-in-out forwards infinite;
 }
 
-.poof {
-  position: absolute;
-  top: 110px;
-  left: 160px;
-  margin-left: -30px;
-  opacity: 0;
-  animation: poof 4s ease-in-out forwards infinite;
-}
-
-.sign {
-  position: absolute;
-  right: -40px;
-  top: 30px;
-  animation: sign 4s ease-in-out forwards infinite;
+.sign{
+  position:absolute;
+  right:-40px;
+  top:30px;
+  animation: sign 6s ease-in-out forwards infinite;
 }
 
 @keyframes sign {
   0% {
-    right: -40px;
+    right:-40px;
   }
   30% {
-    right: 80px;
+    right:80px; 
   }
   70% {
-    right: 80px;
+    right:80px;
   }
   100% {
-    right: 100%;
+    right:100%;
   }
 }
+
 @keyframes peel {
   0% {
     transform: rotate(0deg);
+	left:20px
   }
   70% {
-    transform: rotate(0deg);
+    transform: rotate(0deg); 
+	left:300px;
   }
   73% {
     transform: rotate(-9deg);
+	left:400px;
   }
   95% {
-    transform: rotate(-9deg);
+    transform: rotate(0deg);
+	left:800px;
   }
   100% {
     transform: rotate(0deg);
+	left:830px
   }
 }
+
 @keyframes poof {
   0% {
-    opacity: 0;
-    transform: scale(1);
+    opacity:0;
+    transform: scale(1.0);
   }
   70% {
-    opacity: 0;
-    left: 170px;
-    transform: scale(1);
+    opacity:0;
+    left:170px;
+    transform: scale(1.0);
   }
   76% {
-    opacity: 1;
+    opacity:1;
     transform: scale(1.3);
-    left: 160px;
+    left:160px;
   }
   95% {
-    opacity: 0;
+    opacity:0;
   }
   100% {
-    opacity: 0;
+    opacity:0;
     transform: scale(1.3);
   }
 }
+
 @keyframes bump {
   0% {
-    top: 70px;
+    top:70px;
   }
   50% {
-    top: 70px;
+    top:70px;
   }
   60% {
-    top: 69px;
+    top:69px;
   }
   100% {
-    top: 70px;
+    top:70px;
   }
 }
+</style>
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font: 400 15px/1.8 "Lato", sans-serif;
+  color: #777;
+}
 
-    </style>
+.bgimg-1, .bgimg-2, .bgimg-3,.bgimg-4{
+  position: relative;
+  opacity: 1;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+}
+.bgimg-1 {
+  background-image: url("atv5.jpg");
+  min-height: 100%;
+  width:100%;
+  
+}
 
+.bgimg-2 {
+  background-image: url("back.jpg");
+  min-height: 800px;
+  width:100%;
+}
+
+.bgimg-3 {
+  background-image: url("shake.jpg");
+  min-height: 600px;
+  width:100%;
+}
+.bgimg-4 {
+background-image:url("aboutUs.png");
+min-height:800px;
+width:100%;
+}
+.bgimg-5
+{
+background-image:url(tele.gif);
+min-height:600px;
+width:100%;
+background-repeat:no-repeat;
+}
+.captionfortype {
+  color: #fff;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+.caption {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  color: #000;
+}
+
+
+.caption span.border {
+  background-color: #111;
+  color: #fff;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+h3 {
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font: 20px "Lato", sans-serif;
+  color: #111;
+}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1024px) {
+    .bgimg-1, .bgimg-2, .bgimg-3 {
+        background-attachment: scroll;
+    }
+}
+</style>
+<style>
+@import url(http://fonts.googleapis.com/css?family=Anonymous+Pro);
+
+/* Global */
+
+.line-1{
+    position: relative;
+    top: 40%;  
+	left:-100px;
+    width: 15em;
+    margin: 0 auto;
+    border-right: 2px solid rgba(255,255,255,.75);
+    font-size: 200%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    transform: translateY(-50%);
+	letter-spacing:10px;
+}
+
+/* Animation */
+.anim-typewriter{
+  animation: typewriter 3s steps(44) 1s 1 normal both,
+             blinkTextCursor 500ms steps(44) 25 normal;
+}
+@keyframes typewriter{
+  from{width: 0;}
+  to{width: 15em;}
+}
+@keyframes blinkTextCursor{
+  from{border-right-color: rgba(245,162,19,.75);}
+  to{border-right-color: rgba(245,162,19,0.00);}
+}
+</style>
+<style>
+body {margin:0;}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background:#000;
+    opacity:0.25;
+}
+ul:hover{background:transparent;}
+li {
+    float: left;
+	padding-left:50px;
+	padding-right:50px;
+	opacity:1;
+}
+
+li a {
+    display: block;
+    color: white;
+    padding: 16px;
+	font-family:courier;
+	font-size:17px;
+    text-decoration: none;
+}
+li:hover{
+background-color:#d3d3d3;}
+li:hover a{
+color:white;}
+
+img.change
+{
+filter:grayscale(100%);
+border:20px solid #c0c0c0;
+margin-left:40px;
+opacity:0.8;
+}
+img.change:hover
+{
+-webkit-filter:grayscale(1%);
+opacity:1;
+ transition: opacity .5s ease-in-out;
+}
+img.fac
+{
+opacity:1;
+}
+img.fac:hover
+{
+<!--transform:scale(1.2);-->
+transition:all .5s ease-in-out;
+opacity:0.7;
+ transition: opacity .5s ease-in-out;
+
+}
+.main {
+    padding: 16px;
+    margin-top: 30px;
+    height: 1500px; /* Used in this example to enable scrolling */
+}
+p::first-letter {
+  font-weight: bold;
+  color: Orange;
+  font-size:40px;
+}
+div .name
+{
+top:50%;
+bottom:50%;
+}
+</style>
+<style>
+div.name
+{
+background-color:green;
+opacity:0;
+padding:40px;
+width:60px;height:60px;
+}
+div.name:hover
+{
+opacity:1;
+}
+@media screen and (min-width: 480px) {
+    bgimg-1,bgimg-2,bgimg-3,bgimg-4,bgimg-5{
+       width:100%;
+    }
+}
+</style>
+<style>
+#box    {  width:300px;
+           height:300px;
+		   margin-left:60px;
+           box-shadow:inset 1px 1px 40px 0 rgba(0,0,0,.45);
+          border-bottom:2px solid #fff;
+          border-right:2px solid #fff; 
+  background-size:cover;
+border-radius:5px;
+overflow:hidden;}
+
+#overlay    {  background:rgba(0,0,0,.75);
+               text-align:center;
+               padding:45px 0 66px 0;
+               opacity:0;
+			   height:300px;
+               -webkit-transition: opacity .25s ease;
+-moz-transition: opacity .25s ease;}
+
+#box:hover #overlay {
+               opacity:1;}
+
+#plus       {  font-family:Helvetica;
+               font-weight:200;
+               color:rgba(255,255,255,.85);
+               font-size:36px;}
+
+
+</style>
+<style>
+div.soc{height:100px;width:200px;background-color:red;color:white;transition:width 1s;text-align:center;}
+#id1{transition-timing-function:linear;}
+#id2{transition-timing-function:ease;}
+#id3{transition-timing-function:ease-in;}
+div.soc:hover{width:500px;}
+</style>
+<style>
+.fond{position:absolute;padding-top:85px;top:0;left:0; right:0;bottom:0;
+ background-color:#00506b;}
+
+.style_prevu_kit
+{
+    display:inline-block;
+    border:0;
+   width:196px;
+    height:210px;
+    position: relative;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1); 
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1); 
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1);
+    transition: all 200ms ease-in;
+    transform: scale(1);   
+
+}
+.prevu_kit
+{
+    display:inline-block;
+    border:0;
+   width:50px;
+    height:50px;
+    position: absolute;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1); 
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1); 
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1);
+    transition: all 200ms ease-in;
+    transform: scale(1);   
+
+}
+.style_prevu_kit:hover
+{
+    box-shadow: 0px 0px 150px #000000;
+    z-index: 2;
+    -webkit-transition: all 500ms ease-in;
+    -webkit-transform: scale(2.5);
+    -ms-transition: all 500ms ease-in;
+    -ms-transform: scale(2.5);   
+    -moz-transition: all 500ms ease-in;
+    -moz-transform: scale(2.5);
+    transition: all 500ms ease-in;
+    transform: scale(2.5);
+}
+</style>
+<script type="text/javascript">
+    if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i)) {
+        var viewportmeta = document.querySelector('meta[name="viewport"]');
+        if (viewportmeta) {
+            viewportmeta.content = 'width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0';
+            document.body.addEventListener('gesturestart', function () {
+                viewportmeta.content = 'width=device-width, minimum-scale=0.25, maximum-scale=1.6';
+            }, false);
+        }
+    }
+</script>
 </head>
-
 <body>
-  <div class="scene">
-<img class="car" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/car.svg" alt="" />
+
+<!--
+<div class="scene">
+
+<img class="car" src="car(2).png" alt="" />
 <img class="poof" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/poof.svg" alt="" />
 <img class="sign" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/43033/sign.svg" alt="" />
-  <em>LOADING...</em>
+  
 </div>
-  
-  
+-->
+<div class="bgimg-1" id="home">
+<ul>
+  <li><a href="#home">Home</a></li>
+  <li><a href="#Abstract">Abstract</a></li>
+  <li><a href="#Sponsors">Sponsors</a></li>
+  <li><a href="#about us">Project Details</a></li>
+	<li><a href="#about us">About us</a></li>
+	<li><a href="#about us">Contact us</a></li>
+</ul> 
+ <div class="caption">
+    <!--<span class="border">SCROLL DOWN</span>-->
+  <p class="line-1 anim-typewriter">TEAM   FRIGATORS</p>
+  </div>
+</div>
+	
+
+
+<div class="bgimg-2" id="Abstract">
+<div style="color: #777;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+  <p style="color:white">WHERE IT STARTED:</p>
+</div>
+<ul>
+  <li><a href="#home">Home</a></li>
+  <li><a href="#Abstract">Abstract</a></li>
+  <li><a href="#Sponsors">Sponsors</a></li>
+  <li><a href="#about us">Project Details</a></li>
+	<li><a href="#about us">About us</a></li>
+<li><a href="#about us">Contact us</a></li>
+	</ul>
+<p style="margin-left:50px;font-family:GEORGIA;color:darkblue;font-size:17px"><strong>
+
+Our main motive is to bridge the gap between theoretical and practical study. Building an All-
+Terrain Vehicle (ATV) not only makes us learn technical information but also gives fun to ride.
+
+The overall report consists of design, technical and financial aspects, which lead to build a reliable,
+
+versatile, safe, durable, and high performance off road vehicle. We are ensuring that the vehicle
+
+sticks to the limits of set rules. Our vehicle will be capable of negotiating the most extreme terrain
+
+with confidence and ease. We met these objectives by dividing the vehicle into its major
+
+component subsystems. The ATV design on the basis to apply the principles of engineering science
+
+to expose their proficiency in the automotive world. We have tried to design an All-Terrain vehicle
+
+that meets current market standards and is also cost effective at the same time. We have focused
+
+on every single system to improve the performance of each component. Our vehicle can navigate
+
+through almost all terrain, which ultimately is the objective behind the making of any All-Terrain
+
+vehicle. We began the task of designing by conducting extensive research of each main component
+
+of the vehicle. We considered each component to be significant, and thereby designed the vehicle
+
+as a whole trying to optimize each component while constantly considering how other components
+
+would be affected. This forced us to think outside the box, research more thoroughly, and redesign
+
+components along the way in order to have a successful design.</strong></p>
+  <!--<div class="caption">
+    <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">WE</span>
+  </div>-->
+</div>
+
+<div style="position:relative;">
+  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+    <p>SPONSORS</p>
+  </div>
+</div>
+
+<div class="bgimg-3" id="Sponsors">
+  <ul>
+  <li><a href="#home">Home</a></li>
+  <li><a href="#Abstract">Abstract</a></li>
+  <li><a href="#Sponsors">Sponsors</a></li>
+	<li><a href="#about us">Project Details</a></li>
+	<li><a href="#contact us">About us</a></li>
+  </ul>
+<div class="imageholder">
+   <a href="http://www.bml.edu.in/" target="_blank"> <img src="bmllogo.jpg" width="250px" height="250px" style="margin-top:40px" class="change"></img></a>
+  <!--<span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">SCROLL UP</span>-->
+  </div>
+
+  </div>
+<div style="position:relative;" id="about us">
+  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+    <p>ABOUT US</p>
+  </div>
+</div>
+
+<div class="bgimg-4" >
+ <ul>
+  <li><a href="#home" >Home</a></li>
+  <li><a href="#Abstract"  >Abstract</a></li>
+  <li><a href="#Sponsors"  >Sponsors</a></li>
+  <li><a href="#about us"  >Project Details</a></li>
+	<li><a href="#about us"  >About us</a></li>
+	<li><a href="#contact us">Contact us</a></li>
+</ul>
+<!--   <span><img src="kalluri.jpg" class="fac"></img><div class="name">Kalluri</div></span><!--<span class="border">COOL!</span>-->
+<div style="height:400px;background:transparent;">
+ <!--<div style="text-align:center;color:black;background-color:black;width:40px"><b style="text-size:70px">FACULTY MENTORS</b></div>-->
+	<img src="faculty.png" style="position:center;margin-left:120px;margin-top:70px;border:solid #c0c0c0 10px;border-radius:5px;"/>
+  <div id="box" style="background:url(eswar.jpg);;background-size:cover; float:left;margin-top:30px;"> 
+  <div id="overlay">
+    <span id="plus"><p style="padding-top:150px;">Eswara Krishna</p></span>
+  </div>
+</div>
+  <div id="box" style="background:url(kalluri.jpg);float:right;margin-top:30px;margin-right:60px;" > 
+  <div id="overlay">
+    <span id="plus"><p style="padding-top:150px;">Kalluri Vinayak</p></span>
+  </div>
+  </div>
+  </div>
+  <div>
+ 
+<div style="height:400px;background:transparent;margin-left:60px;margin-top:150px;">
+<link href='http://fonts.googleapis.com/css?family=Roboto:100,400,300,500,700' rel='stylesheet' type='text/css'>
+<div class="style_prevu_kit" style="background:url('atv1.jpg');background-size:cover;"></div>
+<div class="style_prevu_kit" style="background:url('atv2.jpg');background-size:cover;"></div>
+<div class="style_prevu_kit" style="background:url('atv3.jpg');background-size:cover;"></div>
+<div class="style_prevu_kit" style="background:url('atv4.jpg');background-size:cover;background-repeat:no-repeat"></div>
+<div class="style_prevu_kit" style="background:url('atv5.jpg');background-size:cover;background-repeat:no-repeat;"></div>
+<div class="style_prevu_kit" style="background-color:#00a096;"></div>
+</div>
+</div>
+</div>  
+<div style="position:relative;" id="contact us">
+  <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+    <p>Contact Us</p>
+  </div>
+</div>
+ <div class="bgimg-5">
+ <ul>
+  <li><a href="#home" >Home</a></li>
+  <li><a href="#Abstract"  >Abstract</a></li>
+  <li><a href="#Sponsors"  >Sponsors</a></li>
+  <li><a href="#about us"  >Project Details</a></li>
+	<li><a href="#about us"  >About us</a></li>
+	<li><a href="#contact us">Contact us</a></li>
+</ul>
+
+<div style="height:40px;background:transparent;margin-top:100px;float:right;margin-right:50px;">
+<link href='http://fonts.googleapis.com/css?family=Roboto:100,400,300,500,700' rel='stylesheet' type='text/css'>
+<p style="margin-bottom:50px;"><b>CONTACT US:</b></p>
+<div class="prevu_kit" style="background:url('phone.png');background-size:cover;margin-left:90px;"></div>
+<div class="prevu_kit" style="margin-left:150px;"><b>+911999191</b></div>
+<div style="height:40px;background:transparent;margin-top:70px;float:right;margin-right:100px;">
+<link href='http://fonts.googleapis.com/css?family=Roboto:100,400,300,500,700' rel='stylesheet' type='text/css'>
+<div class="prevu_kit" style="background:url('eam.png');background-size:cover;margin-left:90px;"></div>
+<div class="prevu_kit" style="margin-left:150px"><b>k.scientist81@gmail.com</b></div>
+<p style="padding-top:90px"><b>FOLLOW US:</b></p>
+<div style="height:40px;background:transparent;margin-top:0px;float:right;margin-right:300px;">
+<link href='http://fonts.googleapis.com/css?family=Roboto:100,400,300,500,700' rel='stylesheet' type='text/css'>
+<div class="prevu_kit" style="background:url('fb.png');background-size:cover;margin-left:90px;"></div>
+</div>
+
+</div>
+</div>	
+</div>
+<!--
+<img src="phone.png" style="float:right;margin-right:40%;margin-top:300px;"/>
+<img src="email.jpg" style="float:right;margin-right:50%;margin-top:300px;"/>-->
+ </div>
+<!--<map name="logos">
+    <area shape="circle" coords="68,56,33" href="http://www.stumbleupon.com/" title="StumbleUpon" alt="StumbleUpon" />
+    <area shape="rect" coords="220,19,306,54" href="http://www.youtube.com/" title="Youtube" alt="Youtube" />
+    <area shape="rect" coords="367,32,516,84" href="http://www.google.com/" title="Google" alt="Google" />
+    <area shape="rect" coords="556,12,639,115" href="http://www.wikipedia.com/" title="Wikipedia" alt="Wikipedia" />
+    <area shape="rect" coords="128,62,244,114" href="http://www.skype.com/" title="Skype" alt="Skype" />
+    <area shape="rect" coords="301,103,444,136" href="http://www.yahoo.com/" title="Yahoo" alt="Yahoo" />
+    <area shape="rect" coords="25,158,135,207" href="http://www.ebay.com/" title="eBay" alt="eBay" />
+    <area shape="rect" coords="180,147,271,175" href="http://www.flickr.com/" title="Flickr" alt="Flickr" />
+    <area shape="rect" coords="299,166,379,208" href="http://www.digg.com/" title="Digg" alt="Digg" />
+    <area shape="circle" coords="500,184,32" href="http://wordpress.org/" title="Wordpress.org" alt="Wordpress.org" />
+    <area shape="rect" coords="599,142,667,209" href="http://www.blogger.com/" title="Blogger" alt="Blogger" />
+    <area shape="default" nohref="nohref" title="Default" alt="Default"/>
+</map> -->
 </body>
 </html>
